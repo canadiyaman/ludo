@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.user.middleware.login_with_ip.LoginMiddleware',
 ]
 
 ROOT_URLCONF = 'ludo.urls'
