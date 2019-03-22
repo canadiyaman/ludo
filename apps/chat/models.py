@@ -1,6 +1,6 @@
 import uuid
 
-from django.conf.global_settings import AUTH_USER_MODEL
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -25,7 +25,7 @@ class Room(BaseModel):
 
 class Participant(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_muted = models.BooleanField(default=False)
     is_banned = models.BooleanField(default=False)
 
@@ -40,7 +40,7 @@ class Participant(BaseModel):
 
 class Message(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    sender = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
 
     def __str__(self):

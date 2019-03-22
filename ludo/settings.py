@@ -36,6 +36,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 LOCAL_APPS = [
+    'apps.user',
     'apps.chat'
 ]
 THIRD_PARTY_APPS = []
@@ -119,4 +120,4 @@ USE_TZ = True
 
 STATIC_URL = "%s%s" % (ROOT_DIR, '/static/')
 
-# AUTH_USER_MODEL = ''
+AUTH_USER_MODEL = 'user.User'
