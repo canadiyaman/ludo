@@ -1,0 +1,13 @@
+[
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "is_superuser": true,
+      "is_staff": true,
+      "password": "pbkdf2_sha256$120000$tr1W3dhD5OIE$zIbVu1x/4I5qHkjKVdf5xr+7vO41GLWPmq1ls7mOC54=",
+      "ip": "127.0.0.1"
+    }
+  }
+]
