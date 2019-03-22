@@ -1,0 +1,51 @@
+import uuid
+
+from django.conf.global_settings import AUTH_USER_MODEL
+from django.db import models
+from django.urls import reverse
+
+from apps.utils import BaseModel
+
+
+class Room(BaseModel):
+    key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(max_length=25, default='')
+    is_private = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+    def create_url(self):
+        return reverse('room', kwargs={"key": self.key})
+
+    class Meta:
+        verbose_name = 'Room'
+        verbose_name_plural = 'Rooms'
+
+
+class Participant(BaseModel):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_muted = models.BooleanField(default=False)
+    is_banned = models.BooleanField(default=False)
+
+    class Meta:
+        permissions = (
+            ("can_ban_user", "Can Ban User"),
+            ("can_mute_user", "Can Mute User"),
+            ("can_delete_message", "Can Delete Message"),
+            ("can_send_notification", "Can Send Notification")
+        )
+
+
+class Message(BaseModel):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    sender = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.TextField()
+
+    def __str__(self):
+        return "{} - {}...".format(self.room.name, self.message[:25])
+
+    class Meta:
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
