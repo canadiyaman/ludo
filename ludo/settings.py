@@ -39,7 +39,9 @@ LOCAL_APPS = [
     'apps.user',
     'apps.chat'
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'channels'
+]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -122,3 +124,14 @@ USE_TZ = True
 STATIC_URL = "%s%s" % (ROOT_DIR, '/static/')
 
 AUTH_USER_MODEL = 'user.User'
+
+# Channels settings
+ASGI_APPLICATION = 'ludo.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
