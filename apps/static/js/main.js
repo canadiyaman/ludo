@@ -29,7 +29,7 @@ function createRoom() {
             }, 3000);
         }
     };
-    xhr.open("POST", "/rooms/", true);
+    xhr.open("POST", "/chat/rooms/", true);
     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     xhr.send(fd);
 };

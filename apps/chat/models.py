@@ -16,7 +16,7 @@ class Room(BaseModel):
         return "{}".format(self.name)
 
     def get_absolute_url(self):
-        return reverse('room', kwargs={"key": self.key})
+        return reverse('chat:room', kwargs={"key": self.key})
 
     class Meta:
         verbose_name = 'Room'
