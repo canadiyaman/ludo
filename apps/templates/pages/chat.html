@@ -1,17 +1,84 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load staticfiles %}
 {% block title %}Sohbet Ana Sayfa{% endblock %}
+{% block css %}{% endblock css %}
+
 {% block content %}
-    <div class="d-flex justify-content-center">
+    <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-12">
-                <form method="post" action="{% url "room" %}">
-                    <div class="form-group">
-                        <label for="name">Oda İsmi</label>
-                        <input type="text" class="form-control" name="name" value="">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="chat-room">
+                        <aside class="left-side">
+                            <div class="user-head">
+                                <i class="fa fa-comments-o"></i>
+                                <h3>Chat Lobby</h3>
+                            </div>
+                            <ul class="chat-list">
+                                <li class="active">
+                                    <a class="lobby" href="">
+                                        <h4>
+                                            <i class="fa fa-list"></i>
+                                            Lobby
+                                        </h4>
+                                    </a>
+                                </li>
+                                {% for room in rooms %}
+                                    <li>
+                                        <a href="/rooms/{{ room.key }}">
+                                            <i class="fa fa-rocket"></i>
+                                            <span>{{ room.name }}</span>
+                                            <i class="fa fa-times pull-right"></i>
+                                        </a>
+                                    </li>
+                                {% empty %}
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-rocket"></i>
+                                            <span>There is not available room</span>
+                                            <i class="fa fa-times pull-right"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </aside>
+                        <aside class="tengah-side">
+                            <div class="room-desk">
+                                <h4 class="pull-left">Last Activies</h4>
+                                <div class="room-box">
+                                    <h5 class="text-primary"><a href="#chat-room.html">Marketing</a></h5>
+                                    <p>Welcome to our world of marketing. Lorem ipsum dolor sit amet</p>
+                                    <p><span class="text-muted">Admin :</span> Cendy Andrianto | <span
+                                            class="text-muted">Member :</span> 13 | <span class="text-muted">Last Activity :</span>
+                                        15 min ago</p>
+                                </div>
+                            </div>
+                        </aside>
+                        <aside class="kanan-side">
+                            <div class="user-head">
+                                <a href="##" class="chat-tools btn-warning"><i class="fa fa-cog"></i> </a>
+                                <a href="##" class="chat-tools  btn-warning"><i class="fa fa-key"></i> </a>
+                            </div>
+                            <div class="invite-row">
+                                <h4 class="pull-left">Create New Room</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input id="room_name" class="form-control" type="text" placeholder="Room Name">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button id="create_room_btn" type="button" onclick="createRoom();" class="btn
+                                    btn-primary blue
+                                    form-control">Create
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
                     </div>
-                    <button type="submit" class="btn btn-primary">Oluştur</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
+{% block js %}{% endblock %}

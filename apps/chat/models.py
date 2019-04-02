@@ -15,7 +15,7 @@ class Room(BaseModel):
     def __str__(self):
         return "{}".format(self.name)
 
-    def create_url(self):
+    def get_absolute_url(self):
         return reverse('room', kwargs={"key": self.key})
 
     class Meta:

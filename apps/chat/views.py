@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import CreateView, TemplateView
 
 from apps.chat.models import Room
 from apps.chat.forms import RoomForm
@@ -8,26 +9,33 @@ from apps.chat.forms import RoomForm
 
 class ChatView(View):
     def get(self, request):
-        return render(request, 'pages/chat.html', {})
+        rooms = Room.objects.all()
+        return render(request, 'pages/chat.html', {"rooms": rooms})
 
 
-class RoomView(View):
-    model = Room
+class RoomView(TemplateView):
+    queryset = Room.objects.all()
+    template_name = 'pages/room.html'
+    lookup_field = 'key'
 
-    def get(self, request, key=None):
-        room = Room.objects.get(key=key)
-        return render(request, 'pages/room.html', {"room": room})
+    def get(self, request, key=None, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        context['room'] = self.queryset.get(key=key)
+        return self.render_to_response(context)
 
-    def post(self, request, key=None):
+
+class CreateRoomView(CreateView):
+
+    def post(self, request, *args, **kwargs):
         response = dict()
 
         form = RoomForm(data=request.POST)
         if form.is_valid():
             room = form.save()
             response['success'] = True
-            response['link'] = room.create_url()
-            return HttpResponse(room.serialize())
+            response['room_url'] = room.get_absolute_url()
+            return JsonResponse(response)
 
         response['success'] = False
         response['errors'] = form.errors
-        return HttpResponse()
+        return JsonResponse(response)
