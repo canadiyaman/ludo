@@ -24,7 +24,7 @@
                                 </li>
                                 {% for room in rooms %}
                                     <li>
-                                        <a href="/rooms/{{ room.key }}">
+                                        <a href="{% url "chat:room" room.key %}">
                                             <i class="fa fa-rocket"></i>
                                             <span>{{ room.name }}</span>
                                             <i class="fa fa-times pull-right"></i>

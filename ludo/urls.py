@@ -15,14 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
-
-from apps.chat.views import ChatView, RoomView
-from views import CreateRoomView
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    url(r'^$', ChatView.as_view(), name='chat'),
-    url(r'^rooms/(?P<key>[0-9A-Fa-f-]+)$', RoomView.as_view(), name='room'),
-    url(r'^rooms/', CreateRoomView.as_view(), name='create_room'),
+    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'chat/', include(('apps.chat.urls', 'chat'), namespace='chat')),
     path('admin/', admin.site.urls),
 ]
