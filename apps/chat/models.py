@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import uuid
 
 from django.conf import settings
@@ -49,3 +50,18 @@ class Message(BaseModel):
     class Meta:
         verbose_name = 'Message'
         verbose_name_plural = 'Messages'
+
+
+class RoomCode(BaseModel):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    code = models.CharField(max_length=10)
+    is_active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    expire_date = models.DateTimeField(default=datetime.now() + timedelta(days=7))
+
+    def __str__(self):
+        return "{}".format(self.code)
+
+    class Meta:
+        verbose_name = 'Room Code'
+        verbose_name_plural = 'Room Codes'
