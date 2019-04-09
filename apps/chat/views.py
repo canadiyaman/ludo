@@ -28,8 +28,9 @@ class CreateRoomView(CreateView):
 
     def post(self, request, *args, **kwargs):
         response = dict()
-
-        form = RoomForm(data=request.POST)
+        data = request.POST.copy()
+        data['created_by'] = request.user.id
+        form = RoomForm(data=data)
         if form.is_valid():
             room = form.save()
             response['success'] = True

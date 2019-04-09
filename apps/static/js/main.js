@@ -19,6 +19,7 @@ function createRoom() {
     _createRoomStarted();
     var fd = new FormData();
     fd.append("name", document.getElementById('room_name').value);
+    fd.append("is_private", document.getElementById('is_private').checked);
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function (e) {
         if (this.readyState == 4 && this.status == 200) {

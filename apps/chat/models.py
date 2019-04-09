@@ -12,12 +12,16 @@ class Room(BaseModel):
     key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=25, default='')
     is_private = models.BooleanField(default=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.name)
 
     def get_absolute_url(self):
         return reverse('chat:room', kwargs={"key": self.key})
+
+    def create_roomcode(self):
+        return self.roomcode_set.create(room=self)
 
     class Meta:
         verbose_name = 'Room'
@@ -56,7 +60,6 @@ class RoomCode(BaseModel):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     code = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     expire_date = models.DateTimeField(default=datetime.now() + timedelta(days=7))
 
     def __str__(self):
