@@ -1,4 +1,4 @@
-Django==2.1.7
+Django>=2.1.11
 Channels==2.1.7
 Django-environ==0.4.5
 Channels_redis==2.3.3
