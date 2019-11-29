@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block title %}Loca {{ group.name }}{% endblock %}
+{% block css %}{% endblock css %}
+
+{% block content %}
+    <input type="hidden" id="user_id" value="{{ request.user.id }}">
+    <input type="hidden" id="group_name" value="{{ group.name }}">
+    <div class="container">
+        <div class="row" id="contents">
+            <div class="col-lg-12">
+                Mesajlar
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        window.onload = function () {
+            window.user_id = document.getElementById('user_id').value;
+        };
+        startLodge();
+    </script>
+{% endblock %}

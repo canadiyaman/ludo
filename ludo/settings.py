@@ -37,7 +37,8 @@ DJANGO_APPS = [
 ]
 LOCAL_APPS = [
     'apps.user',
-    'apps.chat'
+    'apps.chat',
+    'apps.lodge'
 ]
 THIRD_PARTY_APPS = [
     'channels'

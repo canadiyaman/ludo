@@ -15,6 +15,7 @@ function getCookie() {
     }
     return cookieValue;
 };
+
 function createRoom() {
     _createRoomStarted();
     var fd = new FormData();
@@ -33,11 +34,13 @@ function createRoom() {
     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
     xhr.send(fd);
 };
+
 function _createRoomStarted() {
     var $this = document.getElementById('create_room_btn');
     $this.innerText = "Sending..";
     $this.setAttribute("disabled", "");
 };
+
 function _createRoomEnded() {
     var $this = document.getElementById('create_room_btn');
     $this.innerText = "Created.!";
@@ -73,8 +76,8 @@ BaseWebSocket.prototype.onOpen = function () {
     clearInterval(this.clearTimer);
     // this.send();
 };
-BaseWebSocket.prototype.send = function (message) {
-    var data = JSON.stringify({"message": message});
+BaseWebSocket.prototype.send = function (data) {
+    data = JSON.stringify(data);
     this.socket.send(data);
 };
 BaseWebSocket.prototype.onError = function (event) {
@@ -101,8 +104,7 @@ BaseWebSocket.prototype.connect = function () {
             this.socket.onopen = this.onOpen;
             clearInterval(this.clearTimer);
             console.log(this.getSocketState());
-        }
-        else {
+        } else {
             try {
                 var host = "ws://" + this.server;
                 this.socket = new WebSocket(host);
@@ -111,8 +113,7 @@ BaseWebSocket.prototype.connect = function () {
                 this.socket.onmessage = this.onMessage;
                 this.socket.onerror = this.onError;
                 this.socket.onclose = this.onClose;
-            }
-            catch (exeption) {
+            } catch (exeption) {
                 console.log(exeption);
             }
         }
@@ -137,6 +138,20 @@ function startSocket() {
     init();
 }
 
+function startLodge() {
+    this.url = "127.0.0.1:8000/ws/lodge2/pending_editor";
+    console.log(this.url);
+    this.init = function () {
+        window.socket = new BaseWebSocket(this.url);
+        window.socket.onMessage = function (e) {
+            receiveMessage(e);
+            console.log(e);
+        };
+        window.socket.connect();
+    };
+    init();
+}
+startLodge();
 function createChatBox(data) {
     this.data = data;
     this.createImageBox = function () {
@@ -182,7 +197,11 @@ function createChatBox(data) {
 }
 
 function sendMessage() {
-    window.socket.send(document.getElementById('message').value);
+    var data = {
+        "message": document.getElementById('message').value,
+        "group_name": "editor",
+    };
+    window.socket.send(data);
     document.getElementById('message').value = '';
 }
 

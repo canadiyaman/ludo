@@ -3,4 +3,4 @@ from django.db import models
 
 
 class User(AbstractUser):
-    ip = models.GenericIPAddressField()
+    ip = models.GenericIPAddressField(blank=True, null=True)

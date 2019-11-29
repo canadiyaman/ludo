@@ -21,5 +21,6 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
     url(r'chat/', include(('apps.chat.urls', 'chat'), namespace='chat')),
+    url(r'lodge/', include(('apps.lodge.urls', 'lodge'), namespace='lodge')),
     path('admin/', admin.site.urls),
 ]

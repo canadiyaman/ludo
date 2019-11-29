@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% load staticfiles %}
+{% block title %}Sohbet Ana Sayfa{% endblock %}
+{% block css %}{% endblock css %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                Grup İsimleri
+            </div>
+            {% for group in groups %}
+            <div class="col-lg-12">
+                <a href="{% url "lodge:special_lodge" group.name %}">
+                    {{ group.name }}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}{% endblock %}
